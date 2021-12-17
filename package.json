@@ -1,12 +1,12 @@
 {
     "name": "js-util",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "main": "js-util.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/seulvagem/js-util.git"
     },
-    "author": "Selvagem",
+    "author": "Seulvagem",
     "license": "MIT",
     "engines": {
         "node": ">=14.0.0"

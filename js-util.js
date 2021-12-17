@@ -18,9 +18,9 @@ const getIn = ([key, ...nextKeys], obj) => {
 const select = (keyNames, obj) => {
 
     const selectedEntries = keyNames.map((keyInput) => {
-        const [key, nKey] = (typeof(keyInput) === "string") ? [keyInput, keyInput] : keyInput
-        
-        const keys = (typeof(key) === "string") ? [key] : key
+        const [key, nKey] = (typeof (keyInput) === "string") ? [keyInput, keyInput] : keyInput
+
+        const keys = (typeof (key) === "string") ? [key] : key
 
         return [nKey, getIn(keys, obj)]
     })
@@ -28,4 +28,8 @@ const select = (keyNames, obj) => {
     return Object.fromEntries(selectedEntries)
 }
 
-module.exports = {get, getIn, select}
+const set = (x) => new Set(x)
+
+module.exports = {
+    get, getIn, select, set
+}
