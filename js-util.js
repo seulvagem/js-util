@@ -30,6 +30,10 @@ const select = (keyNames, obj) => {
 
 const set = (x) => new Set(x)
 
+const toString = (x) => x.toString()
+
+const explodeIterable = (a) => [...a]
+
 module.exports = {
-    get, getIn, select, set
+    get, getIn, select, set, toString, explodeIterable
 }
