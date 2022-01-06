@@ -85,6 +85,6 @@ const dissoc = (obj, key, ...nextKeys) => {
 }
 
 module.exports = {
-    get, getIn, select, set, toString, explodeIterable, memoize
+    get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc
 }
 
