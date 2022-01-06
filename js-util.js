@@ -84,7 +84,19 @@ const dissoc = (obj, key, ...nextKeys) => {
     }
 }
 
+const assoc = (obj, key, val, ...keyVals) => {
+    obj[key] = val
+
+    if (keyVals.length) {
+        return assoc(obj, ...keyVals)
+    } else {
+        return obj
+    }
+
+}
+
 module.exports = {
-    get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc
+    get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc,
+    assoc
 }
 
