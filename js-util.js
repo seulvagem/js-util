@@ -75,6 +75,15 @@ const evolve = (evolveMap, obj) =>{
     }, obj)
 }
 
+const dissoc = (obj, key, ...nextKeys) => {
+    delete obj[key]
+    if(nextKeys.length){
+        return dissoc(obj, ...nextKeys)
+    } else {
+        return obj
+    }
+}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize
 }
