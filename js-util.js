@@ -34,6 +34,48 @@ const toString = (x) => x.toString()
 
 const explodeIterable = (a) => [...a]
 
-module.exports = {
-    get, getIn, select, set, toString, explodeIterable
+const memoize = (func, returnCache) => {
+    // [args, result]
+    const cache = new Map()
+    const memodFn = (...args) => {
+
+        const key = JSON.stringify(args);
+
+        if (cache.has(key)) {
+            return cache.get(key)
+        } else {
+            try {
+                const newResult = func(...args);
+                cache.set(key, newResult)
+                return newResult
+            } catch (err) {
+                console.error(err)
+            }
+        }
+    }
+
+    return (returnCache) ? [memodFn, cache] : memodFn
 }
+
+const isFunction = (x) => {
+    return !!(x && x.constructor && x.call && x.apply);
+}
+
+const evolve = (evolveMap, obj) =>{
+    const evolutions = Object.entries(evolveMap)
+
+    return evolutions.reduce((obj, [key, mutation])=>{
+        const val = obj[key]
+
+        if(val !== undefined){
+            obj[key] = isFunction(mutation) ? mutation(val) : evolve(mutation, val)
+        }
+
+        return obj
+    }, obj)
+}
+
+module.exports = {
+    get, getIn, select, set, toString, explodeIterable, memoize
+}
+
