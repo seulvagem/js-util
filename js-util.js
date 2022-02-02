@@ -95,8 +95,33 @@ const assoc = (obj, key, val, ...keyVals) => {
 
 }
 
+const partition = (batchSize, items) => {
+    
+    let batch = []
+
+    let batches = []
+    for(var i = 0, l = items.length; i < l;){
+
+        const item = items[i]
+        i += 1
+
+        batch.push(item)
+
+        if (i % batchSize === 0) {
+            batches.push(batch)
+            batch = []
+        }
+    }
+
+    if (batch.length){
+        batches.push(batch)
+    }
+
+    return batches
+}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc,
-    assoc
+    assoc, partition
 }
 
