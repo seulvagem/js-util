@@ -120,8 +120,12 @@ const partition = (batchSize, items) => {
     return batches
 }
 
+const reMatch = (re, s) => {
+    return re.exec(s)?.[0]
+}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc,
-    assoc, partition
+    assoc, partition, reMatch
 }
 
