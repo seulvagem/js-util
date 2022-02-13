@@ -124,8 +124,12 @@ const reMatch = (re, s) => {
     return re.exec(s)?.[0]
 }
 
+const bind = (fn, ... args) => {
+    return fn.bind(fn, ...args)
+}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc,
-    assoc, partition, reMatch
+    assoc, partition, reMatch, bind
 }
 
