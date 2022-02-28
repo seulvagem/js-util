@@ -128,8 +128,12 @@ const bind = (fn, ... args) => {
     return fn.bind(fn, ...args)
 }
 
+const isError = (x) => {
+    return Object.prototype.toString.call(x) === "[object Error]";
+}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc,
-    assoc, partition, reMatch, bind
+    assoc, partition, reMatch, bind, isError
 }
 
