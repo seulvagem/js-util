@@ -35,7 +35,7 @@ const select = (keyNames, obj) => {
 const selectFilter = (filterFn, ...args) => {
     return selectCore(...args).reduce((acc, [key, value]) => {
         return (filterFn(key, value)) ? assoc(acc, key, value) : acc 
-    })
+    }, {})
 } 
 
 const set = (x) => new Set(x)
