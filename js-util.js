@@ -15,18 +15,28 @@ const getIn = ([key, ...nextKeys], obj) => {
     }
 }
 
-const select = (keyNames, obj) => {
+const selectCore = (keyNames, obj) => {
 
-    const selectedEntries = keyNames.map((keyInput) => {
+    return = keyNames.map((keyInput) => {
         const [key, nKey] = (typeof (keyInput) === "string") ? [keyInput, keyInput] : keyInput
 
         const keys = (typeof (key) === "string") ? [key] : key
 
         return [nKey, getIn(keys, obj)]
     })
+}
+
+const select = (keyNames, obj) => {
+    const selectedEntries = selectCore(keyNames, obj)
 
     return Object.fromEntries(selectedEntries)
 }
+
+const selectFilter = (filterFn, ...args) => {
+    return selectCore(...args).reduce((acc, [key, value]) => {
+        return (filterFn(key, value)) ? assoc(acc, key, value) : acc 
+    })
+} 
 
 const set = (x) => new Set(x)
 
@@ -134,6 +144,6 @@ const isError = (x) => {
 
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc,
-    assoc, partition, reMatch, bind, isError
+    assoc, partition, reMatch, bind, isError, selectCore, selectFilter
 }
 
