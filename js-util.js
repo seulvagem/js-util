@@ -17,7 +17,7 @@ const getIn = ([key, ...nextKeys], obj) => {
 
 const selectCore = (keyNames, obj) => {
 
-    return = keyNames.map((keyInput) => {
+    return keyNames.map((keyInput) => {
         const [key, nKey] = (typeof (keyInput) === "string") ? [keyInput, keyInput] : keyInput
 
         const keys = (typeof (key) === "string") ? [key] : key
