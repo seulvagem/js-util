@@ -34,9 +34,9 @@ const select = (keyNames, obj) => {
 
 const selectFilter = (filterFn, ...args) => {
     return selectCore(...args).reduce((acc, [key, value]) => {
-        return (filterFn(key, value)) ? assoc(acc, key, value) : acc 
+        return (filterFn(key, value)) ? assoc(acc, key, value) : acc
     }, {})
-} 
+}
 
 const set = (x) => new Set(x)
 
@@ -106,7 +106,7 @@ const assoc = (obj, key, val, ...keyVals) => {
 }
 
 const partition = (batchSize, items) => {
-    
+
     let batch = []
 
     let batches = []
@@ -142,8 +142,16 @@ const isError = (x) => {
     return Object.prototype.toString.call(x) === "[object Error]";
 }
 
-module.exports = {
-    get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc,
-    assoc, partition, reMatch, bind, isError, selectCore, selectFilter
+// composes fns given as arguments into a single fn, executes right to left (last arg first)
+const comp = (...fns) => {
+    return (...args) => {
+        const [firstFn, ...fns] = fns.reverse()
+
+        return fns.reduce((acc, fn) => fn(acc), firstFn(...args))
+    }
 }
 
+module.exports = {
+    get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc,
+    assoc, partition, reMatch, bind, isError, selectCore, selectFilter, comp
+}
