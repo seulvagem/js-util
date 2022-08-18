@@ -143,11 +143,11 @@ const isError = (x) => {
 }
 
 // composes fns given as arguments into a single fn, executes right to left (last arg first)
-const comp = (...fns) => {
+var comp = (...fns) => {
     return (...args) => {
-        const [firstFn, ...fns] = fns.reverse()
+        const [firstFn, ...nextFns] = fns.reverse()
 
-        return fns.reduce((acc, fn) => fn(acc), firstFn(...args))
+        return nextFns.reduce((acc, fn) => fn(acc), firstFn(...args))
     }
 }
 
