@@ -151,7 +151,21 @@ var comp = (...fns) => {
     }
 }
 
+const is = (x) => x !== null && x !== undefined
+
+const assocIf = (obj, key, val, ...keyVals) => {
+    if (is(val)) {
+        obj[key] = val
+    }
+
+    if (keyVals.length) {
+        return assocIf(obj, ...keyVals)
+    } else {
+        return obj
+    }
+}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc,
-    assoc, partition, reMatch, bind, isError, selectCore, selectFilter, comp
+    assoc, partition, reMatch, bind, isError, selectCore, selectFilter, comp, is, assocIf
 }
