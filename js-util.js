@@ -173,7 +173,15 @@ const assocIf = (obj, key, val, ...keyVals) => {
     }
 }
 
+// allows you to do some action (presumably) with side effects, in a chain
+const middlewareBypass = (fn) => {
+    return (x) => {
+        fn(x)
+        return x
+    }
+}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction, isString, isArray, evolve, dissoc,
-    assoc, partition, reMatch, bind, isError, selectCore, selectFilter, comp, is, assocIf
+    assoc, partition, reMatch, bind, isError, selectCore, selectFilter, comp, is, assocIf, middlewareBypass
 }
