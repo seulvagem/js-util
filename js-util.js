@@ -68,7 +68,15 @@ const memoize = (func, returnCache) => {
 }
 
 const isFunction = (x) => {
-    return !!(x && x.constructor && x.call && x.apply);
+    return typeof(x) === "function"
+}
+
+const isString = (x) => {
+    return typeof(x) === "string"
+}
+
+const isArray = (x) => {
+    return Array.isArray(x)
 }
 
 const evolve = (evolveMap, obj) =>{
@@ -166,6 +174,6 @@ const assocIf = (obj, key, val, ...keyVals) => {
 }
 
 module.exports = {
-    get, getIn, select, set, toString, explodeIterable, memoize, isFunction, evolve, dissoc,
+    get, getIn, select, set, toString, explodeIterable, memoize, isFunction, isString, isArray, evolve, dissoc,
     assoc, partition, reMatch, bind, isError, selectCore, selectFilter, comp, is, assocIf
 }
