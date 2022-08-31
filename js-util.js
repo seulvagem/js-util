@@ -181,7 +181,16 @@ const middlewareBypass = (fn) => {
     }
 }
 
+// two arities, can be called with only the map (id will be the key), or can be called with key and map
+const mapToArray = (keyOrMap, maybeMap) => {
+    const [targetKey, map] = maybeMap ? [keyOrMap, maybeMap] : ["id", keyOrMap]
+
+    return Object.entries(map).map(([key, val]) => {
+        return assoc(val, targetKey, key)
+    })
+}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction, isString, isArray, evolve, dissoc,
-    assoc, partition, reMatch, bind, isError, selectCore, selectFilter, comp, is, assocIf, middlewareBypass
+    assoc, partition, reMatch, bind, isError, selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray
 }
