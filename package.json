@@ -1,7 +1,7 @@
 {
     "name": "js-util",
-    "version": "2.1.0",
-    "main": "index.js",
+    "version": "1.1.0",
+    "main": "js-util.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/seulvagem/js-util.git"
