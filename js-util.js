@@ -191,15 +191,23 @@ export const mapToArray = (keyOrMap, maybeMap) => {
     })
 }
 
-// returns another obj with only the 'keys' from 'source', a key may be
-// a string or a tuple: [key, keysArray], enabling deep obj support
+// returns another obj with only the 'keys' from 'source'. A key may be
+// a string or a tuple: [key, keysArray], enabling deep obj support, also
+// in this case, it will map the projection if the source value is an array
 export const project = (keys, source) => {
     return keys.reduce((acc, key) => {
 
         if (isString(key)) {
-            return assoc(acc, key, get(key, source))
+            return assocIf(acc, key, get(key, source))
         } else {
-            return assoc(acc, key[0], project(key[1], get(key[0], source)))
+            const projectNext = bind(project, key[1])
+            const sourceValue = get(key[0], source)
+
+            const value = isArray(sourceValue)
+                  ? sourceValue.map(projectNext)
+                  : projectNext(sourceValue)
+
+            return assocIf(acc, key[0], value)
         }
 
     }, {})
