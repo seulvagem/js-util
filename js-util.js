@@ -190,3 +190,17 @@ export const mapToArray = (keyOrMap, maybeMap) => {
         return assoc(val, targetKey, key)
     })
 }
+
+// returns another obj with only the 'keys' from 'source', a key may be
+// a string or a tuple: [key, keysArray], enabling deep obj support
+export const project = (keys, source) => {
+    return keys.reduce((acc, key) => {
+
+        if (isString(key)) {
+            return assoc(acc, key, get(key, source))
+        } else {
+            return assoc(acc, key[0], project(key[1], get(key[0], source)))
+        }
+
+    }, {})
+}
