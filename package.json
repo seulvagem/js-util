@@ -1,6 +1,5 @@
 {
     "name": "js-util",
-    "type": "module",
     "version": "2.1.0",
     "main": "index.js",
     "repository": {
