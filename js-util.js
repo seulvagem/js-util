@@ -1,8 +1,8 @@
-export const get = (key, obj) => {
+const get = (key, obj) => {
     return obj && obj[key]
 }
 
-export const getIn = ([key, ...nextKeys], obj) => {
+const getIn = ([key, ...nextKeys], obj) => {
     if (obj === undefined) {
         return undefined
     }
@@ -15,7 +15,7 @@ export const getIn = ([key, ...nextKeys], obj) => {
     }
 }
 
-export const selectCore = (keyNames, obj) => {
+const selectCore = (keyNames, obj) => {
 
     return keyNames.map((keyInput) => {
         const [key, nKey] = (typeof (keyInput) === "string") ? [keyInput, keyInput] : keyInput
@@ -26,25 +26,25 @@ export const selectCore = (keyNames, obj) => {
     })
 }
 
-export const select = (keyNames, obj) => {
+const select = (keyNames, obj) => {
     const selectedEntries = selectCore(keyNames, obj)
 
     return Object.fromEntries(selectedEntries)
 }
 
-export const selectFilter = (filterFn, ...args) => {
+const selectFilter = (filterFn, ...args) => {
     return selectCore(...args).reduce((acc, [key, value]) => {
         return (filterFn(key, value)) ? assoc(acc, key, value) : acc
     }, {})
 }
 
-export const set = (x) => new Set(x)
+const set = (x) => new Set(x)
 
-export const toString = (x) => x.toString()
+const toString = (x) => x.toString()
 
-export const explodeIterable = (a) => [...a]
+const explodeIterable = (a) => [...a]
 
-export const memoize = (func, returnCache) => {
+const memoize = (func, returnCache) => {
     // [args, result]
     const cache = new Map()
     const memodFn = (...args) => {
@@ -67,19 +67,19 @@ export const memoize = (func, returnCache) => {
     return (returnCache) ? [memodFn, cache] : memodFn
 }
 
-export const isFunction = (x) => {
+const isFunction = (x) => {
     return typeof(x) === "function"
 }
 
-export const isString = (x) => {
+const isString = (x) => {
     return typeof(x) === "string"
 }
 
-export const isArray = (x) => {
+const isArray = (x) => {
     return Array.isArray(x)
 }
 
-export const evolve = (evolveMap, obj) =>{
+const evolve = (evolveMap, obj) =>{
     const evolutions = Object.entries(evolveMap)
 
     return evolutions.reduce((obj, [key, mutation])=>{
@@ -91,10 +91,9 @@ export const evolve = (evolveMap, obj) =>{
 
         return obj
     }, obj)
-
 }
 
-export const dissoc = (obj, key, ...nextKeys) => {
+const dissoc = (obj, key, ...nextKeys) => {
     delete obj[key]
     if(nextKeys.length){
         return dissoc(obj, ...nextKeys)
@@ -103,7 +102,7 @@ export const dissoc = (obj, key, ...nextKeys) => {
     }
 }
 
-export const assoc = (obj, key, val, ...keyVals) => {
+const assoc = (obj, key, val, ...keyVals) => {
     obj[key] = val
 
     if (keyVals.length) {
@@ -114,7 +113,7 @@ export const assoc = (obj, key, val, ...keyVals) => {
 
 }
 
-export const partition = (batchSize, items) => {
+const partition = (batchSize, items) => {
 
     let batch = []
 
@@ -139,20 +138,20 @@ export const partition = (batchSize, items) => {
     return batches
 }
 
-export const reMatch = (re, s) => {
+const reMatch = (re, s) => {
     return re.exec(s)?.[0]
 }
 
-export const bind = (fn, ... args) => {
+const bind = (fn, ... args) => {
     return fn.bind(fn, ...args)
 }
 
-export const isError = (x) => {
+const isError = (x) => {
     return Object.prototype.toString.call(x) === "[object Error]";
 }
 
 // composes fns given as arguments into a single fn, executes right to left (last arg first)
-export const comp = (...fns) => {
+var comp = (...fns) => {
     return (...args) => {
         const [firstFn, ...nextFns] = fns.reverse()
 
@@ -160,9 +159,9 @@ export const comp = (...fns) => {
     }
 }
 
-export const is = (x) => x !== null && x !== undefined
+const is = (x) => x !== null && x !== undefined
 
-export const assocIf = (obj, key, val, ...keyVals) => {
+const assocIf = (obj, key, val, ...keyVals) => {
     if (is(val)) {
         obj[key] = val
     }
@@ -175,7 +174,7 @@ export const assocIf = (obj, key, val, ...keyVals) => {
 }
 
 // allows you to do some action (presumably) with side effects, in a chain
-export const middlewareBypass = (fn) => {
+const middlewareBypass = (fn) => {
     return (x) => {
         fn(x)
         return x
@@ -183,7 +182,7 @@ export const middlewareBypass = (fn) => {
 }
 
 // two arities, can be called with only the map (id will be the key), or can be called with key and map
-export const mapToArray = (keyOrMap, maybeMap) => {
+const mapToArray = (keyOrMap, maybeMap) => {
     const [targetKey, map] = maybeMap ? [keyOrMap, maybeMap] : ["id", keyOrMap]
 
     return Object.entries(map).map(([key, val]) => {
@@ -194,7 +193,7 @@ export const mapToArray = (keyOrMap, maybeMap) => {
 // returns another obj with only the 'keys' from 'source'. A key may be
 // a string or a tuple: [key, keysArray], enabling deep obj support, also
 // in this case, it will map the projection if the source value is an array
-export const project = (keys, source) => {
+const project = (keys, source) => {
     return keys.reduce((acc, key) => {
 
         if (isString(key)) {
@@ -211,4 +210,11 @@ export const project = (keys, source) => {
         }
 
     }, {})
+}
+
+module.exports = {
+    get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
+    isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
+    selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
+    project
 }
