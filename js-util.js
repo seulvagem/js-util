@@ -194,7 +194,7 @@ const mapToArray = (keyOrMap, maybeMap) => {
 // a string or a tuple: [key, keysArray], enabling deep obj support, also
 // in this case, it will map the projection if the source value is an array
 const project = (keys, source) => {
-    return keys.reduce((acc, key) => {
+    return source && keys.reduce((acc, key) => {
 
         if (isString(key)) {
             return assocIf(acc, key, get(key, source))
