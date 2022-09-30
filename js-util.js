@@ -190,6 +190,16 @@ const mapToArray = (keyOrMap, maybeMap) => {
     })
 }
 
+// by MGomes-Dev
+const arrayToMap = (key, funcOrArray, maybeArray) => {
+    const [arr, func] = maybeArray ? [maybeArray, funcOrArray] : [funcOrArray]
+    return arr.reduce((map, item) => {
+        return func ?
+            assoc(map, item[key], func(item)) :
+            assoc(map, item[key], item);
+    }, {});
+};
+
 // returns another obj with only the 'keys' from 'source'. A key may be
 // a string or a tuple: [key, keysArray], enabling deep obj support, also
 // in this case, it will map the projection if the source value is an array
@@ -216,5 +226,5 @@ module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
-    project
+    arrayToMap, project
 }
