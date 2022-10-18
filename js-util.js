@@ -222,9 +222,34 @@ const project = (keys, source) => {
     }, {})
 }
 
+// returns a promise that resolves with the 'val' after 'ms' milliseconds
+const timeout = (ms, val = "TIMEOUT") => {
+    return new Promise((res) => {
+        setTimeout(res, ms, val)
+    })
+}
+
+// returns an array from 'start' inclusive to 'end' exclusive in increments of 'step'
+const range = (endOrStart, maybeEnd, step = 1) => {
+    const [start, end] = maybeEnd ? [endOrStart, maybeEnd] : [0, endOrStart]
+
+    var arr = []
+    for (var n = start; n < end; n += step) {
+        arr.push(n)
+    }
+
+    return arr
+}
+
+// splits the array in 2 at the given index, nth item will be on the left array
+const arrSplit = (arr, n) => {
+    return [arr.slice(0, n), arr.slice(n)]
+}
+
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
-    arrayToMap, project
+    arrayToMap, project, timeout, range, arrSplit
 }
