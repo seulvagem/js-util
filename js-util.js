@@ -1,3 +1,9 @@
+const second = 1000
+const minute = 60 * second
+const hour = 60 * minute
+const day = 24 * hour
+
+
 const get = (key, obj) => {
     return obj && obj[key]
 }
@@ -251,5 +257,5 @@ module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
-    arrayToMap, project, timeout, range, arrSplit
+    arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day
 }
