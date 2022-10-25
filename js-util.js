@@ -148,6 +148,14 @@ const reMatch = (re, s) => {
     return re.exec(s)?.[0]
 }
 
+const reGroups = (re, s) => {
+    return re.exec(s)?.slice?.(1)
+}
+
+const reGroup = (re, s) => {
+    return re.exec(s)?.[1]
+}
+
 const bind = (fn, ... args) => {
     return fn.bind(fn, ...args)
 }
@@ -257,5 +265,6 @@ module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
-    arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day
+    arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
+    reGroup, reGroups
 }
