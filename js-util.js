@@ -260,11 +260,13 @@ const arrSplit = (arr, n) => {
     return [arr.slice(0, n), arr.slice(n)]
 }
 
+const constantly = (x) => () => x
+
 
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
-    reGroup, reGroups
+    reGroup, reGroups, constantly
 }
