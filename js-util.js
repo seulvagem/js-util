@@ -262,11 +262,18 @@ const arrSplit = (arr, n) => {
 
 const constantly = (x) => () => x
 
+// returns n bound by min and max, works with most js types, min and max can also
+// be undefined leaving that side unbounded
+const bound = (min, n, max) => {
+    return (min > n) ? min
+        : (max < n) ? max
+        : n
+}
 
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
-    reGroup, reGroups, constantly
+    reGroup, reGroups, constantly, bound
 }
