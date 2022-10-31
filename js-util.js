@@ -85,18 +85,59 @@ const isArray = (x) => {
     return Array.isArray(x)
 }
 
-const evolve = (evolveMap, obj) =>{
+// use constantly(true) for default
+const condp = (ref, pred, resfn, ...nextClauses) => {
+    return pred(ref) ? resfn(ref)
+        : nextClauses.length ? condp(ref, ...nextClauses) : undefined
+}
+
+const identity = (x) => x
+
+const evolveWrapArray = ([evolutionMap]) => {
+    const evolutions = prepEvolve(evolutionMap)
+    return (x) => {
+        return x.map(bind(evolvePrepd, evolutions))
+    }
+}
+
+const evolveWrapObj = (evolutionMap) => {
+    const evolutions = prepEvolve(evolutionMap)
+    return (x) => {
+        return evolvePrepd(evolutions, x)
+    }
+}
+
+const prepEvolve = (evolveMap) => {
     const evolutions = Object.entries(evolveMap)
 
-    return evolutions.reduce((obj, [key, mutation])=>{
+    return evolutions.map(([key, mutation]) => {
+
+        const evolution = condp(mutation,
+                                isFunction, identity,
+                                isArray, evolveWrapArray,
+                                constantly(true), evolveWrapObj)
+
+        return [key, evolution]
+    })
+}
+
+const evolvePrepd = (evolutions, obj) => {
+
+    return evolutions.reduce((obj, [key, evolution])=>{
         const val = obj[key]
 
         if(val !== undefined){
-            obj[key] = isFunction(mutation) ? mutation(val) : evolve(mutation, val)
+            obj[key] = evolution(val)
         }
 
         return obj
     }, obj)
+}
+
+const evolve = (evolveMap, obj) =>{
+    const evolutions = prepEvolve(evolveMap)
+
+    return evolvePrepd(evolutions, obj)
 }
 
 const dissoc = (obj, key, ...nextKeys) => {
@@ -275,5 +316,5 @@ module.exports = {
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
-    reGroup, reGroups, constantly, bound
+    reGroup, reGroups, constantly, bound, prepEvolve, evolvePrepd
 }
