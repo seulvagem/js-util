@@ -107,6 +107,19 @@ const evolveWrapObj = (evolutionMap) => {
     }
 }
 
+const evolveWrapMap = (map) => {
+    const [_, evolutionMap] = map.entries().next().value
+    const evolutions = prepEvolve(evolutionMap)
+
+    return (x) => {
+        const entries = Object.entries(x)
+        const evolvedEntries = entries.map(u.bind(evolvePrepd, evolutions))
+        return Object.fromEntries(evolvedEntries)
+    }
+}
+
+const isMap = (x) => (x instanceof Map)
+
 const prepEvolve = (evolveMap) => {
     const evolutions = Object.entries(evolveMap)
 
@@ -115,6 +128,7 @@ const prepEvolve = (evolveMap) => {
         const evolution = condp(mutation,
                                 isFunction, identity,
                                 isArray, evolveWrapArray,
+                                isMap, evolveWrapMap,
                                 constantly(true), evolveWrapObj)
 
         return [key, evolution]
@@ -311,10 +325,20 @@ const bound = (min, n, max) => {
         : n
 }
 
+const update = (obj, key, fn, ...args) => {
+    obj[key] = fn(obj[key], ...args)
+    return obj
+}
+
+const append = (arr, x) => {
+    arr.push(x)
+    return arr
+}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
-    reGroup, reGroups, constantly, bound, prepEvolve, evolvePrepd
+    reGroup, reGroups, constantly, bound, prepEvolve, evolvePrepd, update, append,
 }
