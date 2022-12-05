@@ -335,10 +335,13 @@ const append = (arr, x) => {
     return arr
 }
 
+const wrap = (wrapping, filling) => "" + wrapping + filling + wrapping
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
     reGroup, reGroups, constantly, bound, prepEvolve, evolvePrepd, update, append,
+    wrap,
 }
