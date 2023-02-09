@@ -351,11 +351,22 @@ const groupBy = (getKey, arr) => {
     }, {})
 }
 
+const objMapEntries = (fn, obj) => {
+    return Object.fromEntries(
+        Object.entries(obj).map(fn)
+    )
+}
+
+const objMapVals = (fn, obj) => objMapEntries(x => [x[0], fn(x)], obj)
+
+const objMapKeys = (fn, obj) => objMapEntries(x => [fn(x), x[1]], obj)
+
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
     reGroup, reGroups, constantly, bound, prepEvolve, evolvePrepd, update, append,
-    wrap, groupBy,
+    wrap, groupBy, objMapKeys, objMapVals, objMapEntries,
 }
