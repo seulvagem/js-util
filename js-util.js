@@ -113,7 +113,7 @@ const evolveWrapMap = (map) => {
 
     return (x) => {
         const entries = Object.entries(x)
-        const evolvedEntries = entries.map(u.bind(evolvePrepd, evolutions))
+        const evolvedEntries = entries.map(bind(evolvePrepd, evolutions))
         return Object.fromEntries(evolvedEntries)
     }
 }
@@ -339,7 +339,7 @@ const wrap = (wrapping, filling) => "" + wrapping + filling + wrapping
 
 const appendToKey = (maybeArr, record) => {
     return ((maybeArr)
-            ? u.append(maybeArr, record)
+            ? append(maybeArr, record)
             : [record])
 }
 
@@ -347,7 +347,7 @@ const groupBy = (getKey, arr) => {
     return arr.reduce((acc, x) => {
         const key = getKey(x)
 
-        return u.update(acc, key, appendToKey, x)
+        return update(acc, key, appendToKey, x)
     }, {})
 }
 
