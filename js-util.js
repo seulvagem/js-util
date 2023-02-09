@@ -337,11 +337,25 @@ const append = (arr, x) => {
 
 const wrap = (wrapping, filling) => "" + wrapping + filling + wrapping
 
+const appendToKey = (maybeArr, record) => {
+    return ((maybeArr)
+            ? u.append(maybeArr, record)
+            : [record])
+}
+
+const groupBy = (getKey, arr) => {
+    return arr.reduce((acc, x) => {
+        const key = getKey(x)
+
+        return u.update(acc, key, appendToKey, x)
+    }, {})
+}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
     reGroup, reGroups, constantly, bound, prepEvolve, evolvePrepd, update, append,
-    wrap,
+    wrap, groupBy,
 }
