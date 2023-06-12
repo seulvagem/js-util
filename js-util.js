@@ -220,8 +220,8 @@ const isError = (x) => {
 }
 
 // composes fns given as arguments into a single fn, executes right to left (last arg first)
-var comp = (...fns) => {
-    const [firstFn, ...nextFns] = fns.toReversed()
+const comp = (...fns) => {
+    const [firstFn, ...nextFns] = fns.slice().reverse()
     
     return (...args) => {
         return nextFns.reduce((acc, fn) => fn(acc), firstFn(...args))
