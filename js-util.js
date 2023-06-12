@@ -221,9 +221,9 @@ const isError = (x) => {
 
 // composes fns given as arguments into a single fn, executes right to left (last arg first)
 var comp = (...fns) => {
+    const [firstFn, ...nextFns] = fns.toReversed()
+    
     return (...args) => {
-        const [firstFn, ...nextFns] = fns.reverse()
-
         return nextFns.reduce((acc, fn) => fn(acc), firstFn(...args))
     }
 }
