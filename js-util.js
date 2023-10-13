@@ -163,7 +163,7 @@ const dissoc = (obj, key, ...nextKeys) => {
     }
 }
 
-const assoc = (obj, key, val, ...keyVals) => {
+const assoc = (obj = {}, key, val, ...keyVals) => {
     obj[key] = val
 
     if (keyVals.length) {
@@ -172,6 +172,12 @@ const assoc = (obj, key, val, ...keyVals) => {
         return obj
     }
 
+}
+
+const assocIn = (map, [key, ...keys], value) => {
+	const val = keys.length ? this.assocIn(this.get(key, map), keys, value) : value
+	
+	return this.assoc(map, key, val)
 }
 
 const partition = (batchSize, items) => {
@@ -200,15 +206,19 @@ const partition = (batchSize, items) => {
 }
 
 const reMatch = (re, s) => {
-    return re.exec(s)?.[0]
+    return get(0, re.exec(s))
 }
 
 const reGroups = (re, s) => {
-    return re.exec(s)?.slice?.(1)
+	const match = re.exec(s)
+	
+	if (match) {
+		return match.slice(1)
+	}
 }
 
 const reGroup = (re, s) => {
-    return re.exec(s)?.[1]
+    return get(1, re.exec(s))
 }
 
 const bind = (fn, ... args) => {
@@ -220,10 +230,10 @@ const isError = (x) => {
 }
 
 // composes fns given as arguments into a single fn, executes right to left (last arg first)
-const comp = (...fns) => {
-    const [firstFn, ...nextFns] = fns.slice().reverse()
-    
+var comp = (...fns) => {
+	const [firstFn, ...nextFns] = fns.reverse()
     return (...args) => {
+
         return nextFns.reduce((acc, fn) => fn(acc), firstFn(...args))
     }
 }
@@ -361,12 +371,40 @@ const objMapVals = (fn, obj) => objMapEntries(x => [x[0], fn(x)], obj)
 
 const objMapKeys = (fn, obj) => objMapEntries(x => [fn(x), x[1]], obj)
 
+const wrapArray = (...x) => [].concat(...x)
 
-module.exports = {
+        
+const _singletonCallsCache = new Map()
+
+// function designed to provide some kind of 'batch' window before executions,
+// only the last call for each key will be executed, with delay being the time window
+// returns a fn that cancels the execution manually
+const singletonCall = (key, delay, fn) => {
+	const previousTimeout = _singletonCallsCache.get(key)
+	
+	clearTimeout(previousTimeout)
+	const timeoutKey = setTimeout(fn, delay + 100)
+	_singletonCallsCache.set(key, timeoutKey)
+	
+	return () => clearTimeout(timeoutKey)
+}
+
+const call = (fn, args = [], context = this) => {
+	return fn && Reflect.apply(fn, context, args)
+}
+
+const capitalize = (x, firstOnly) => {
+	const regex = firstOnly ? /\b\w/ : /\b\w/g
+	
+	return x && x.replace(regex, l => l.toUpperCase())
+}
+
+module.exports {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
     reGroup, reGroups, constantly, bound, prepEvolve, evolvePrepd, update, append,
-    wrap, groupBy, objMapKeys, objMapVals, objMapEntries,
+    wrap, groupBy, objMapKeys, objMapVals, objMapEntries, identity, wrapArray,
+    singletonCall, assocIn, call, capitalize,
 }
