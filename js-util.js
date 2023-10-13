@@ -94,26 +94,23 @@ const condp = (ref, pred, resfn, ...nextClauses) => {
 const identity = (x) => x
 
 const evolveWrapArray = ([evolutionMap]) => {
-    const evolutions = prepEvolve(evolutionMap)
+    const prepdEvolve = prepEvolve(evolutionMap)
     return (x) => {
-        return x.map(bind(evolvePrepd, evolutions))
+        return x.map(prepdEvolve)
     }
 }
 
 const evolveWrapObj = (evolutionMap) => {
-    const evolutions = prepEvolve(evolutionMap)
-    return (x) => {
-        return evolvePrepd(evolutions, x)
-    }
+    return prepEvolve(evolutionMap)
 }
 
 const evolveWrapMap = (map) => {
     const [_, evolutionMap] = map.entries().next().value
-    const evolutions = prepEvolve(evolutionMap)
+    const prepdEvolve = prepEvolve(evolutionMap)
 
     return (x) => {
         const entries = Object.entries(x)
-        const evolvedEntries = entries.map(bind(evolvePrepd, evolutions))
+        const evolvedEntries = entries.map(prepdEvolve)
         return Object.fromEntries(evolvedEntries)
     }
 }
@@ -123,7 +120,7 @@ const isMap = (x) => (x instanceof Map)
 const prepEvolve = (evolveMap) => {
     const evolutions = Object.entries(evolveMap)
 
-    return evolutions.map(([key, mutation]) => {
+    const prepdEvolutions = evolutions.map(([key, mutation]) => {
 
         const evolution = condp(mutation,
                                 isFunction, identity,
@@ -133,6 +130,8 @@ const prepEvolve = (evolveMap) => {
 
         return [key, evolution]
     })
+
+    return bind(evolvePrepd, prepdEvolutions)
 }
 
 const evolvePrepd = (evolutions, obj) => {
@@ -149,9 +148,9 @@ const evolvePrepd = (evolutions, obj) => {
 }
 
 const evolve = (evolveMap, obj) =>{
-    const evolutions = prepEvolve(evolveMap)
+    const prepdEvolve = prepEvolve(evolveMap)
 
-    return evolvePrepd(evolutions, obj)
+    return prepdEvolve(obj)
 }
 
 const dissoc = (obj, key, ...nextKeys) => {
@@ -404,7 +403,7 @@ module.exports = {
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
-    reGroup, reGroups, constantly, bound, prepEvolve, evolvePrepd, update, append,
+    reGroup, reGroups, constantly, bound, prepEvolve, update, append,
     wrap, groupBy, objMapKeys, objMapVals, objMapEntries, identity, wrapArray,
     singletonCall, assocIn, call, capitalize,
 }
