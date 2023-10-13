@@ -1,6 +1,6 @@
 {
     "name": "js-util",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "main": "js-util.js",
     "repository": {
         "type": "git",
