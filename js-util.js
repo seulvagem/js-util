@@ -231,7 +231,7 @@ const isError = (x) => {
 
 // composes fns given as arguments into a single fn, executes right to left (last arg first)
 var comp = (...fns) => {
-	const [firstFn, ...nextFns] = fns.reverse()
+	const [firstFn, ...nextFns] = fns.slice().reverse()
     return (...args) => {
 
         return nextFns.reduce((acc, fn) => fn(acc), firstFn(...args))
@@ -399,7 +399,7 @@ const capitalize = (x, firstOnly) => {
 	return x && x.replace(regex, l => l.toUpperCase())
 }
 
-module.exports {
+module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
     selectCore, selectFilter, comp, is, assocIf, middlewareBypass, mapToArray,
