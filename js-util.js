@@ -339,7 +339,8 @@ const update = (obj, key, fn, ...args) => {
     return obj
 }
 
-const append = (arr = [], x) => {
+const append = (maybeArr = [], x) => {
+    const arr = wrapArray(maybeArr)
     arr.push(x)
     return arr
 }
