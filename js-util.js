@@ -399,6 +399,8 @@ const capitalize = (x, firstOnly) => {
 	return x && x.replace(regex, l => l.toUpperCase())
 }
 
+const voidFn = () => {}
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
@@ -406,5 +408,5 @@ module.exports = {
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
     reGroup, reGroups, constantly, bound, prepEvolve, update, append,
     wrap, groupBy, objMapKeys, objMapVals, objMapEntries, identity, wrapArray,
-    singletonCall, assocIn, call, capitalize,
+    singletonCall, assocIn, call, capitalize, voidFn,
 }
