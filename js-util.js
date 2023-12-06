@@ -401,6 +401,28 @@ const capitalize = (x, firstOnly) => {
 
 const voidFn = () => {}
 
+// WILL mutate
+const unproject = (unkeys, source) => {
+    
+    return source && unkeys.reduce((acc, key) => {
+
+        if (isString(key)) {
+            return dissoc(acc, key)
+        } else {
+            const unprojectNext = bind(unproject, key[1])
+            const sourceValue = get(key[0], acc)
+
+            const value = isArray(sourceValue)
+                  ? sourceValue.map(unprojectNext)
+                  : unprojectNext(sourceValue)
+
+            return assocIf(acc, key[0], value)
+        }
+
+    }, source)
+}
+
+
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
     isString, isArray, evolve, dissoc, assoc, partition, reMatch, bind, isError,
@@ -408,5 +430,5 @@ module.exports = {
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
     reGroup, reGroups, constantly, bound, prepEvolve, update, append,
     wrap, groupBy, objMapKeys, objMapVals, objMapEntries, identity, wrapArray,
-    singletonCall, assocIn, call, capitalize, voidFn,
+    singletonCall, assocIn, call, capitalize, voidFn, unproject,
 }
