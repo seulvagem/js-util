@@ -44,6 +44,10 @@ const selectFilter = (filterFn, ...args) => {
     }, {})
 }
 
+const selectIs = (...args) => {
+    return selectFilter(identity, ...args)
+}
+
 const set = (x) => new Set(x)
 
 const toString = (x) => x.toString()
@@ -430,5 +434,5 @@ module.exports = {
     arrayToMap, project, timeout, range, arrSplit, second, minute, hour, day,
     reGroup, reGroups, constantly, bound, prepEvolve, update, append,
     wrap, groupBy, objMapKeys, objMapVals, objMapEntries, identity, wrapArray,
-    singletonCall, assocIn, call, capitalize, voidFn, unproject,
+    singletonCall, assocIn, call, capitalize, voidFn, unproject, selectIs,
 }
