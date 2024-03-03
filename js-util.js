@@ -426,6 +426,23 @@ const unproject = (unkeys, source) => {
     }, source)
 }
 
+//simple distinction using stringify
+const distinctObjs = (objs) => {
+    const res = objs.reduce((acc, obj, index) => {
+        const str = JSON.stringify(obj)
+
+        if(!acc.strs.includes(str)) {
+            acc.strs.push(str),
+            acc.objs.push(objs[index])
+        }
+
+        return acc
+
+    }, {strs: [], objs: []})
+
+    return res.objs
+}
+
 
 module.exports = {
     get, getIn, select, set, toString, explodeIterable, memoize, isFunction,
@@ -435,4 +452,5 @@ module.exports = {
     reGroup, reGroups, constantly, bound, prepEvolve, update, append,
     wrap, groupBy, objMapKeys, objMapVals, objMapEntries, identity, wrapArray,
     singletonCall, assocIn, call, capitalize, voidFn, unproject, selectIs,
+    distinctObjs,
 }
